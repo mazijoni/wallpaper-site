@@ -59,20 +59,20 @@
   /** Neutral stand-in for a screen that has no wallpaper yet. */
   function drawPlaceholder(ctx, w, h, label) {
     ctx.save()
-    ctx.fillStyle = '#101013'
+    ctx.fillStyle = '#161310'
     ctx.fillRect(0, 0, w, h)
     const cx = w / 2
     const cy = h / 2
     const unit = Math.min(w, h)
     const r = unit * 0.15
-    ctx.strokeStyle = 'rgba(255,255,255,0.18)'
+    ctx.strokeStyle = 'rgba(236,232,223,0.2)'
     ctx.lineWidth = Math.max(2, unit * 0.006)
     ctx.setLineDash([unit * 0.02, unit * 0.02])
     ctx.beginPath()
     ctx.roundRect(cx - r, cy - r * 1.3, r * 2, r * 2, r * 0.3)
     ctx.stroke()
     ctx.setLineDash([])
-    ctx.fillStyle = 'rgba(255,255,255,0.5)'
+    ctx.fillStyle = 'rgba(236,232,223,0.5)'
     ctx.font = `500 ${unit * 0.04}px system-ui, "Segoe UI", sans-serif`
     ctx.textAlign = 'center'
     ctx.fillText(label, cx, cy + r * 1.15)
@@ -93,7 +93,7 @@
 
   function exportFileName(screen, opts) {
     const { w, h } = exportSize(screen, opts)
-    return `foldwall-${screen.id}-${w}x${h}.${FORMATS[opts.format].ext}`
+    return `foldpaper-${screen.id}-${w}x${h}.${FORMATS[opts.format].ext}`
   }
 
   /** Renders ONLY the artwork (no frame, guides, shadows or UI) and encodes it. */

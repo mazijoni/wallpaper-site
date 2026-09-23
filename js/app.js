@@ -1,4 +1,4 @@
-/** FoldWall Studio — composes the components and wires up keyboard shortcuts. */
+/** FoldPaper — composes the components and wires up keyboard shortcuts. */
 (function (FW) {
   const { h, icon, Switch } = FW.ui
   const store = FW.createStore()
@@ -80,7 +80,7 @@
     { class: 'topbar' },
     h('div', { class: 'brand' },
       h('span', { class: 'logo', 'aria-hidden': 'true' }, h('i'), h('i')),
-      h('span', { class: 'brand-name' }, 'FoldWall ', h('b', {}, 'Studio')),
+      h('span', { class: 'brand-name' }, 'Fold', h('b', {}, 'Paper')),
       h('span', { class: 'device-chip' }, FW.DEVICE.name)),
     h('div', { class: 'export-anchor' }, exportBtn, popover),
   )

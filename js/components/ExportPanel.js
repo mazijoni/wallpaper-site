@@ -64,7 +64,7 @@
         const w = store.state.wallpapers[id]
         files.push({ name: FW.exportFileName(S[id], opts), blob: await FW.exportWallpaperBlob(S[id], w.asset, w.transform, opts) })
       }
-      FW.downloadBlob(await FW.makeZip(files), 'foldwall-fold8-wallpapers.zip')
+      FW.downloadBlob(await FW.makeZip(files), 'foldpaper-fold8-wallpapers.zip')
     }
 
     const bCover = button('Cover wallpaper', '', () => run(one('cover'), 'Cover wallpaper exported.'))

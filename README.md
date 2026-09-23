@@ -1,4 +1,4 @@
-# FoldWall Studio
+# FoldPaper
 
 Design **two separate wallpapers** for the Samsung Galaxy Z Fold8 — one for the cover screen, one for the inner screen — and preview them on a 3D phone that folds and unfolds.
 
