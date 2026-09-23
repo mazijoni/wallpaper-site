@@ -7,8 +7,9 @@
  *  - Cover: 5.5" FHD+ AMOLED, 1248 x 1972 px (10:16), ~428 ppi
  *  - Inner: 7.6" QXGA+ Dynamic AMOLED 2X, 2448 x 1848 px (4:3), ~404 ppi
  *
- * Values marked "approx." are NOT published by Samsung (corner radii, punch-hole
- * position, system-UI zones). They are estimates used for the mockup and guides.
+ * Values marked "approx." are NOT published by Samsung (punch-hole position,
+ * status/nav bar sizes, system-UI zones); they are estimates for the mockup and guides.
+ * The Fold8 has square corners, so the body and display radii are 0.
  */
 (function (FW) {
   FW.DEVICE = {
@@ -21,7 +22,7 @@
       // Thickness of ONE half. The closed phone is two halves plus a small gap.
       openThicknessMm: 4.5,
       closedThicknessMm: 9.7,
-      cornerRadiusMm: 6.4, // approx.
+      cornerRadiusMm: 0, // the Fold8 has square corners (set > 0 to round the mockup)
     },
     screens: {
       cover: {
@@ -34,7 +35,7 @@
         px: { w: 1248, h: 1972 },
         ppi: 428,
         aspect: '10:16',
-        cornerRadiusPx: 84, // approx.
+        cornerRadiusPx: 0, // square display corners
         camera: { x: 0.5, y: 66, diameterPx: 46 }, // approx. (x = fraction of width, y = px from top)
         statusBarPx: 96, // approx.
         navBarPx: 120, // approx.
@@ -54,7 +55,7 @@
         px: { w: 2448, h: 1848 },
         ppi: 404,
         aspect: '4:3',
-        cornerRadiusPx: 78, // approx.
+        cornerRadiusPx: 0, // square display corners
         camera: { x: 0.955, y: 66, diameterPx: 46 }, // approx.
         statusBarPx: 96, // approx.
         navBarPx: 120, // approx.

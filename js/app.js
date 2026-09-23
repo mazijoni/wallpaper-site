@@ -58,7 +58,7 @@
     chip(C.bars, 'Status & gesture bars'),
     chip(C.zone, 'System UI zones'),
     chip(C.camera, 'Camera cut-out'),
-    chip(C.corner, 'Rounded corners'),
+    ...(Object.values(FW.DEVICE.screens).some((s) => s.cornerRadiusPx > 0) ? [chip(C.corner, 'Rounded corners')] : []),
     chip(C.fold, 'Fold crease'),
     h('li', { class: 'legend-note' }, 'Approximate · not exported'),
   )

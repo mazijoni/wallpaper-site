@@ -36,6 +36,7 @@
     const T = px(geo.thickness)
     const H = px(geo.height)
     const R = px(geo.radius)
+    const RG = Math.max(0, R - px(RIM)) // glass corner radius (never negative)
 
     /** kind: 'left' (moving) | 'right' (fixed) | 'hinge'. originMm: x of this box's left edge in the open body. */
     function buildBox(kind, originMm) {
@@ -53,7 +54,7 @@
             ? `${rim}px 0 ${rim}px ${rim}px`
             : `${rim}px ${rim}px ${rim}px 0`
       const glassRadius =
-        kind === 'hinge' ? '0' : kind === 'left' ? `${R - rim}px 0 0 ${R - rim}px` : `0 ${R - rim}px ${R - rim}px 0`
+        kind === 'hinge' ? '0' : kind === 'left' ? `${RG}px 0 0 ${RG}px` : `0 ${RG}px ${RG}px 0`
 
       // Front face: frame + black glass + a slice of the continuous inner display.
       const front = h('div', { class: 'face front', style: { borderRadius: outer } })
@@ -87,7 +88,7 @@
         // The cover display lives on the back of the swinging half.
         const backGlass = h('div', {
           class: 'glass',
-          style: { inset: `${rim}px ${rim}px ${rim}px 0`, borderRadius: `0 ${R - rim}px ${R - rim}px 0` },
+          style: { inset: `${rim}px ${rim}px ${rim}px 0`, borderRadius: `0 ${RG}px ${RG}px 0` },
         })
         const coverView = mkView('cover')
         Object.assign(coverView.el.style, {

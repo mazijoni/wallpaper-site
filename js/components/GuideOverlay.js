@@ -53,19 +53,20 @@
     )
 
     // Rounded-corner safe area: the actual corner curve plus a dashed inset.
-    const inset = Math.round(r * 0.34)
-    parts.push(
-      `<rect x="${inset}" y="${inset}" width="${w - inset * 2}" height="${h - inset * 2}" rx="${r - inset * 0.4}" fill="none" stroke="${C.corner}0.75)" stroke-width="2" stroke-dasharray="8 8" vector-effect="non-scaling-stroke"/>`,
-    )
-    const arc = (x0, y0, x1, y1) =>
-      `<path d="M${x0} ${y0} A${r} ${r} 0 0 1 ${x1} ${y1}" fill="none" stroke="${C.corner}0.95)" stroke-width="4" vector-effect="non-scaling-stroke"/>`
-    parts.push(
-      arc(0, r, r, 0),
-      arc(w - r, 0, w, r),
-      arc(w, h - r, w - r, h),
-      arc(r, h, 0, h - r),
-      label('Rounded corners', w - m, h - s.navBarPx / 2 + fs * 0.35, C.corner, 'end'),
-    )
+    // (Skipped when the display has square corners, as the Fold8's does.)
+    if (r > 0) {
+      const inset = Math.round(r * 0.34)
+      const arc = (x0, y0, x1, y1) =>
+        `<path d="M${x0} ${y0} A${r} ${r} 0 0 1 ${x1} ${y1}" fill="none" stroke="${C.corner}0.95)" stroke-width="4" vector-effect="non-scaling-stroke"/>`
+      parts.push(
+        `<rect x="${inset}" y="${inset}" width="${w - inset * 2}" height="${h - inset * 2}" rx="${r - inset * 0.4}" fill="none" stroke="${C.corner}0.75)" stroke-width="2" stroke-dasharray="8 8" vector-effect="non-scaling-stroke"/>`,
+        arc(0, r, r, 0),
+        arc(w - r, 0, w, r),
+        arc(w, h - r, w - r, h),
+        arc(r, h, 0, h - r),
+        label('Rounded corners', w - m, h - s.navBarPx / 2 + fs * 0.35, C.corner, 'end'),
+      )
+    }
 
     // Camera cut-out with a keep-clear radius
     const cx = s.camera.x * w

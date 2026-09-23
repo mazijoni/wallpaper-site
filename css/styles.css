@@ -279,7 +279,7 @@ kbd { font-family: var(--mono); font-size: 10.5px; padding: 1px 6px; margin: 0 1
 .pane-screens { display: flex; align-items: center; justify-content: center; gap: 28px; padding: 12px; }
 .pane-screens.is-column { flex-direction: column; gap: 18px; }
 .flat-fig { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.flat { position: relative; box-shadow: 0 0 0 1px var(--line-2), var(--shadow); border-radius: 4%; }
+.flat { position: relative; box-shadow: 0 0 0 1px var(--line-2), var(--shadow); }
 .flat .screen { position: relative; width: 100%; height: 100%; }
 figcaption { font-variant-numeric: tabular-nums; }
 figcaption b { color: var(--ink); font-weight: 600; }

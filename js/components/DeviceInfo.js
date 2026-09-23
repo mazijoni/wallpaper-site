@@ -31,7 +31,7 @@
           h('div', {}, h('dt', {}, 'Unfolded'), h('dd', {}, `${d.body.openWidthMm} × ${d.body.heightMm} × ${d.body.openThicknessMm} mm`)),
           h('div', {}, h('dt', {}, 'Folded'), h('dd', {}, `${d.body.closedWidthMm} × ${d.body.heightMm} × ${d.body.closedThicknessMm} mm`)),
         ),
-        h('p', { class: 'note' }, 'Resolutions and body size are from Samsung’s published specs. Corner radii, camera position and system-UI zones are estimates for the mockup and guides.'),
+        h('p', { class: 'note' }, 'Resolutions and body size are from Samsung’s published specs. Camera position and system-UI zones are estimates for the mockup and guides.'),
       ),
     }
   }

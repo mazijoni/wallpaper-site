@@ -14,7 +14,7 @@ Plain HTML, CSS and JavaScript. **No build step, no dependencies, no backend, no
 - Independent **Cover** and **Inner** wallpapers (upload, drag & drop, replace, remove).
 - Zoom, Position X/Y, Rotate, Fit/Fill, Reset — or drag the image directly in the preview.
 - **Phone** (3D fold animation), **Screens** (flat side-by-side, same pixel scale) and **Split** (closed vs open) preview modes.
-- **Show Guides**: screen edge, rounded corners, camera cut-out, status bar, gesture area, lock-screen/dock zones and the fold crease. Guides are preview-only and can never be exported.
+- **Show Guides**: screen edge, camera cut-out, status bar, gesture area, lock-screen/dock zones and the fold crease. Guides are preview-only and can never be exported.
 - **Export** the artwork only (no frame, guides, shadows or UI) as PNG / JPG / WebP at native or 2× size; both screens as a ZIP.
 - Keyboard: `F` fold · `G` guides · `1` `2` `3` view modes; with the preview focused, arrows nudge the image and `+` / `-` zoom.
 
@@ -27,7 +27,7 @@ Hosted at `foldpaper.maze-development.com` (see `CNAME`) and styled like [maze-d
 Everything about the phone lives in one object: [js/config.js](js/config.js) (`FW.DEVICE`). The 3D model in [js/geometry.js](js/geometry.js) is derived from it, so updating a number there updates the mockup, the guides, the info panel and the export sizes.
 
 Published specs used (Galaxy Z Fold8): unfolded 161.4 × 123.9 × 4.5 mm, folded 81.9 × 123.9 × 9.7 mm; cover 5.5″ 1248 × 1972 (10:16); inner 7.6″ 2448 × 1848 (4:3).
-Not published by Samsung, so approximate and marked `approx.` in the config: corner radii, punch-hole positions, status/nav bar heights and system-UI zones.
+Not published by Samsung, so approximate and marked `approx.` in the config: punch-hole positions, status/nav bar heights and system-UI zones.
 
 ## Layout
 
