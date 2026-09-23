@@ -33,9 +33,8 @@
     }
   }
 
-  /** Turn an SVG string (the built-in example artwork) into an asset. */
-  FW.loadSvgAsset = async function (svg, name) {
-    const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }))
+  /** Load an image that ships with the site (the default wallpapers). */
+  FW.loadUrlAsset = async function (url, name) {
     return toAsset(name, await decode(url), url)
   }
 })((window.FW = window.FW || {}))

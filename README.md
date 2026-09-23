@@ -18,6 +18,10 @@ Plain HTML, CSS and JavaScript. **No build step, no dependencies, no backend, no
 - **Export** the artwork only (no frame, guides, shadows or UI) as PNG / JPG / WebP at native or 2× size; both screens as a ZIP.
 - Keyboard: `F` fold · `G` guides · `1` `2` `3` view modes; with the preview focused, arrows nudge the image and `+` / `-` zoom.
 
+## Part of Maze Development
+
+Hosted at `foldpaper.maze-development.com` (see `CNAME`) and styled like [maze-development.com](https://maze-development.com): the same paper/ink/accent tokens, Geist + Geist Mono + Instrument Serif, square hairline UI, and a masthead/footer that link back to the main site. Brand images live in `img/` (`logo_2.png` mark → favicon and masthead, `logo_3.png` wordmark → footer, `og-image.png` → social previews). The palette tokens are at the top of [css/styles.css](css/styles.css); keep them in sync with maze-site.
+
 ## Device data
 
 Everything about the phone lives in one object: [js/config.js](js/config.js) (`FW.DEVICE`). The 3D model in [js/geometry.js](js/geometry.js) is derived from it, so updating a number there updates the mockup, the guides, the info panel and the export sizes.

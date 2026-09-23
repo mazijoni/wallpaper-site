@@ -43,7 +43,7 @@
         const w = state.wallpapers[id]
         if (w.asset) return { asset: w.asset, transform: w.transform, demo: false }
         if (api.isEmpty() && state.demo[id]) {
-          return { asset: state.demo[id], transform: FW.DEFAULT_TRANSFORM, demo: true }
+          return { asset: state.demo[id], transform: FW.demo.transforms[id], demo: true }
         }
         return null
       },
@@ -112,11 +112,14 @@
         api.patchTransform(id, { zoom: clamp(t.zoom * factor, FW.ZOOM_MIN, FW.ZOOM_MAX) })
       },
 
-      /** Load the built-in eye/face example into the two slots (as independent images). */
+      /** Load the default (Maze logo) example into the two slots (as independent images). */
       async loadExample() {
         const demo = await FW.demo.build()
         api.setAsset('inner', demo.inner)
         api.setAsset('cover', demo.cover)
+        // Start from the same placement the built-in defaults use.
+        api.patchTransform('inner', FW.demo.transforms.inner)
+        api.patchTransform('cover', FW.demo.transforms.cover)
         api.setFold(state.fold) // keep the active screen in sync with the fold state
       },
     }

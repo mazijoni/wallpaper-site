@@ -75,14 +75,34 @@
     preview.el,
   )
 
+  // Masthead follows maze-site's product pages: ← back link / mark + name, actions on the right.
+  const MAZE = 'https://maze-development.com'
   const header = h(
     'header',
-    { class: 'topbar' },
-    h('div', { class: 'brand' },
-      h('span', { class: 'logo', 'aria-hidden': 'true' }, h('i'), h('i')),
-      h('span', { class: 'brand-name' }, 'Fold', h('b', {}, 'Paper')),
-      h('span', { class: 'device-chip' }, FW.DEVICE.name)),
-    h('div', { class: 'export-anchor' }, exportBtn, popover),
+    { class: 'masthead' },
+    h('div', { class: 'mast-inner' },
+      h('div', { class: 'mast-logo' },
+        h('a', { class: 'back', href: MAZE, title: 'Back to Maze Development' }, '← Maze', h('span', { class: 'back-long' }, ' Development')),
+        h('span', { class: 'sep', 'aria-hidden': 'true' }, '/'),
+        h('img', { class: 'mast-icon', src: 'img/logo_2.png', alt: '' }),
+        h('span', { class: 'mast-name' }, 'FoldPaper'),
+        h('span', { class: 'device-chip' }, FW.DEVICE.name)),
+      h('div', { class: 'export-anchor' }, exportBtn, popover)),
+  )
+
+  const footer = h(
+    'footer',
+    { class: 'site-footer' },
+    h('div', { class: 'footer-inner' },
+      h('a', { class: 'footer-mark', href: MAZE, 'aria-label': 'Maze Development' },
+        h('img', { class: 'footer-logo', src: 'img/logo_3.png', alt: 'Maze Development' }),
+        h('span', { class: 'footer-brand' }, 'FoldPaper', h('b', {}, '_'), 'No rights reserved')),
+      h('nav', { class: 'footer-links', 'aria-label': 'Maze Development' },
+        h('a', { href: MAZE }, 'Home'),
+        h('a', { href: MAZE + '/portfolio/' }, 'Portfolio'),
+        h('a', { href: MAZE + '/games/' }, 'Games'),
+        h('a', { href: 'https://workspace.maze-development.com' }, 'Workspace'),
+        h('a', { href: 'https://github.com/mazijoni', target: '_blank', rel: 'noopener' }, 'GitHub'))),
   )
 
   const toolbar = h(
@@ -105,7 +125,7 @@
 
   const side = h('aside', { class: 'side', 'aria-label': 'Wallpaper editors' }, cover.el, inner.el, info.el)
 
-  const app = h('div', { class: 'app', dataset: { guides: 'off' } }, header, h('main', { class: 'layout' }, stageCol, side))
+  const app = h('div', { class: 'app', dataset: { guides: 'off' } }, header, h('main', { class: 'layout' }, stageCol, side), footer)
   document.getElementById('app').replaceWith(app)
 
   // ---- State → UI ------------------------------------------------------------------------

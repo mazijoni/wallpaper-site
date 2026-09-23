@@ -6,8 +6,8 @@
   const { h, icon } = FW.ui
 
   FW.EmptyState = function EmptyState(store, { onUpload }) {
-    const eyeImg = h('img', { alt: 'Example cover wallpaper: a black-and-white close-up of an eye', class: 'es-thumb es-cover' })
-    const faceImg = h('img', { alt: 'Example inner wallpaper: the black-and-white face the eye belongs to', class: 'es-thumb es-inner' })
+    const eyeImg = h('img', { alt: 'Default cover wallpaper: the Maze mark', class: 'es-thumb es-cover' })
+    const faceImg = h('img', { alt: 'Default inner wallpaper: the full Maze_Development logo', class: 'es-thumb es-inner' })
     const example = h('button', { type: 'button', class: 'btn btn-primary', onClick: () => store.loadExample() }, 'Try this example')
     const upload = h('button', { type: 'button', class: 'btn', onClick: onUpload }, icon('upload', 15), 'Upload your own')
 
@@ -17,7 +17,7 @@
       h(
         'div',
         { class: 'empty-text' },
-        h('h2', {}, 'Create a wallpaper that changes when you unfold your phone.'),
+        h('h2', {}, 'Create a wallpaper that ', h('em', {}, 'changes'), ' when you unfold your phone.'),
         h('p', {}, 'Design two related images — a close-up on the cover screen, the bigger picture inside — and flip between CLOSED and OPEN to see them work together.'),
         h('div', { class: 'btn-row' }, example, upload),
       ),

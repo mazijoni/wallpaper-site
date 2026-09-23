@@ -107,11 +107,20 @@
     drawWallpaper(ctx, w, h, asset, t)
     const info = FORMATS[opts.format]
     return new Promise((resolve, reject) => {
-      canvas.toBlob(
-        (blob) => (blob ? resolve(blob) : reject(new Error('This browser could not encode that format.'))),
-        info.mime,
-        info.quality,
-      )
+      try {
+        canvas.toBlob(
+          (blob) => (blob ? resolve(blob) : reject(new Error('This browser could not encode that format.'))),
+          info.mime,
+          info.quality,
+        )
+      } catch (e) {
+        // Images loaded from file:// (the built-in defaults) taint the canvas.
+        reject(
+          e && e.name === 'SecurityError'
+            ? new Error('The browser blocks exporting images loaded from local files. Open the site over http(s), or use your own uploads.')
+            : e,
+        )
+      }
     })
   }
 
