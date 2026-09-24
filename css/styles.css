@@ -92,6 +92,11 @@ u { text-underline-offset: 3px; }
 .mast-icon { width: 22px; height: 22px; display: block; object-fit: contain; }
 .mast-name { color: var(--ink); }
 .device-chip { padding: 3px 9px; border: 1px solid var(--line-2); }
+.device-select {
+  max-width: 190px; height: 28px; padding: 0 26px 0 8px; border: 1px solid var(--line-2);
+  background: var(--paper-2); color: var(--ink-2); font: inherit; font-size: 11px; letter-spacing: 0.02em;
+}
+.device-select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .export-anchor { position: relative; }
 
 .site-footer { border-top: 1px solid var(--ink-dim); background: var(--paper-2); padding: 32px 0; position: relative; z-index: 1; }
@@ -269,8 +274,6 @@ u { text-underline-offset: 3px; }
 .empty-demo { display: flex; align-items: center; gap: 14px; }
 .empty-demo figure { display: flex; flex-direction: column; gap: 6px; align-items: center; }
 .es-thumb { height: 92px; border: 1px solid var(--line-2); background: var(--paper); display: block; object-fit: contain; }
-.es-cover { aspect-ratio: 1248 / 1972; }
-.es-inner { aspect-ratio: 2448 / 1848; }
 .es-arrow { color: var(--accent); display: inline-flex; margin-bottom: 20px; }
 .kbd-hint { text-align: center; text-transform: none; letter-spacing: 0.06em; color: var(--ink-dim); }
 kbd { font-family: var(--mono); font-size: 10.5px; padding: 1px 6px; margin: 0 1px; border: 1px solid var(--line-2); color: var(--ink-mute); }
@@ -302,13 +305,18 @@ figcaption b { color: var(--ink); font-weight: 600; }
   background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.09) 36%, rgba(236, 232, 223, 0.03) 50%, rgba(0, 0, 0, 0.09) 64%, transparent);
   opacity: clamp(0, calc(1 - var(--fold, 0) * 5), 1);
 }
+/* Flip hinges run horizontally, so their crease is a bar across the width instead. */
+.crease.crease-h {
+  top: 50%; bottom: auto; left: 0; right: 0; width: auto; transform: translateY(-50%);
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.09) 36%, rgba(236, 232, 223, 0.03) 50%, rgba(0, 0, 0, 0.09) 64%, transparent);
+}
 .guides { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 0.2s; }
 [data-guides="on"] .guides { opacity: 1; }
 
 /* ---- The 3D phone ---------------------------------------------------------------------------- */
 .phone-root { position: absolute; inset: 0; perspective: 2000px; }
 .phone-scene { position: absolute; left: 50%; top: 50%; transform-style: preserve-3d; will-change: transform; }
-.box, .pivot { position: absolute; top: 0; transform-style: preserve-3d; }
+.box, .pivot { position: absolute; transform-style: preserve-3d; }
 .pivot { width: 0; height: 0; transform-origin: 0 0; }
 .face { position: absolute; inset: 0; backface-visibility: hidden; overflow: hidden; }
 .face.front, .face.back {
@@ -318,12 +326,14 @@ figcaption b { color: var(--ink); font-weight: 600; }
 .face.side { inset: auto; background: linear-gradient(180deg, #58554d, #302e29); }
 .glass { position: absolute; background: #050403; }
 .shade { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
-.box-left .shade { opacity: var(--shade, 0); }
-.box-right .front .shade { opacity: calc(var(--fold, 0) * 0.55); }
+.box-lead .shade { opacity: var(--shade, 0); }
+.box-base .front .shade { opacity: calc(var(--fold, 0) * 0.55); }
 .fade-out-when-closed .glass, .fade-out-when-closed .screen { opacity: clamp(0, calc(1 - var(--fold, 0) * 4), 1); }
 .box-hinge .face.front, .box-hinge .face.back { background: linear-gradient(90deg, #24221e, #58554d 45%, #2c2a25); }
+/* A flip's hinge is a horizontal line, so its shading gradient runs the other way. */
+.phone-root[data-axis="flip"] .box-hinge .face.front, .phone-root[data-axis="flip"] .box-hinge .face.back { background: linear-gradient(180deg, #24221e, #58554d 45%, #2c2a25); }
 /* Faces that touch another box are never visible from outside; the hinge's outer edge only shows once folded. */
-.box-hinge .side-l { opacity: var(--fold, 0); }
+.box-hinge .hinge-edge { opacity: var(--fold, 0); }
 .key { position: absolute; width: 4px; background: linear-gradient(90deg, #58554d, #38352f); }
 
 .phone-shadow {
@@ -341,24 +351,28 @@ figcaption b { color: var(--ink); font-weight: 600; }
   .layout { grid-template-columns: minmax(0, 1fr) 350px; }
 }
 
+/* Mobile stage heights are driven by --phone-ar / --split-ar* / --screens-ar (set from
+   FW.geo in app.js) rather than a fixed vw guess, so a device whose proportions differ a
+   lot from the Fold8's doesn't get letterboxed down to a sliver. */
 @media (max-width: 980px) {
   .layout { grid-template-columns: minmax(0, 1fr); padding-top: 16px; }
   .stage-col { position: static; height: auto; min-height: 0; }
-  .stage { flex: none; height: clamp(300px, 74vw, 600px); }
-  .app[data-view="split"] .stage { height: clamp(300px, 80vw, 620px); }
-  .app[data-view="screens"] .stage { height: clamp(360px, 92vw, 720px); }
+  .stage { flex: none; width: 100%; aspect-ratio: var(--phone-ar, 1.3); min-height: 300px; max-height: min(74vh, 600px); }
+  .app[data-view="split"] .stage { aspect-ratio: var(--split-ar, 2); min-height: 300px; max-height: min(78vh, 620px); }
+  .app[data-view="screens"] .stage { aspect-ratio: var(--screens-ar, 1.7); min-height: 360px; max-height: min(84vh, 720px); }
 }
 
 @media (max-width: 640px) {
   :root { --gutter: 20px; }
   .device-chip, .back-long { display: none; }
+  .device-select { max-width: 145px; }
   .layout { gap: 16px; }
   .toolbar .seg-view { width: 100%; }
   .toolbar .seg-view .seg-btn { flex: 1; justify-content: center; padding: 0 8px; }
   .seg-fold .seg-btn { padding: 0 16px; }
-  .app[data-view="split"] .stage { height: clamp(520px, 150vw, 760px); }
+  .app[data-view="split"] .stage { aspect-ratio: var(--split-ar-stacked, 0.55); min-height: 480px; max-height: min(88vh, 780px); }
   .app[data-view="split"] .pane-split { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
-  .app[data-view="screens"] .stage { height: clamp(460px, 130vw, 720px); }
+  .app[data-view="screens"] .stage { aspect-ratio: var(--screens-ar, 1.7); min-height: 420px; max-height: min(84vh, 720px); }
   .kbd-hint { display: none; }
   .empty { padding: 16px; }
   .es-thumb { height: 76px; }

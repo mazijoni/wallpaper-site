@@ -28,8 +28,14 @@
     el.append(canvas)
 
     if (hardware && s.creasePx) {
+      // Book hinges run vertically (a crease bar across the width); flip hinges run
+      // horizontally (a bar across the height).
+      const horiz = FW.DEVICE.body.foldAxis === 'flip'
       el.append(
-        h('div', { class: 'crease', style: { width: `${(s.creasePx / s.px.w) * 100}%` } }),
+        h('div', {
+          class: horiz ? 'crease crease-h' : 'crease',
+          style: horiz ? { height: `${(s.creasePx / s.px.h) * 100}%` } : { width: `${(s.creasePx / s.px.w) * 100}%` },
+        }),
       )
     }
     el.append(FW.GuideOverlay(id))

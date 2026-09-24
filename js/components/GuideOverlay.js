@@ -24,6 +24,7 @@
     const fs = Math.round(Math.min(w, h) * 0.024) // label size relative to the display
     const r = s.cornerRadiusPx
     const m = Math.round(w * 0.02) // label inset
+    const creaseHoriz = !!s.creasePx && FW.DEVICE.body.foldAxis === 'flip'
 
     const label = (text, x, y, color, anchor = 'start') =>
       `<text x="${x}" y="${y}" font-size="${fs}" text-anchor="${anchor}" fill="${color}0.98)" stroke="rgba(0,0,0,.55)" stroke-width="${fs * 0.22}" paint-order="stroke" font-family="system-ui, Segoe UI, sans-serif" font-weight="600">${text}</text>`
@@ -37,7 +38,7 @@
       parts.push(
         `<rect x="${m * 2}" y="${y0}" width="${w - m * 4}" height="${y1 - y0}" rx="${fs}" fill="${C.zone}0.13)" stroke="${C.zone}0.85)" stroke-width="2" stroke-dasharray="14 10" vector-effect="non-scaling-stroke"/>`,
         // On the inner screen keep the label off the fold line.
-        label(z.label, s.creasePx ? w * 0.27 : w / 2, y0 + (y1 - y0) / 2 + fs * 0.35, C.zone, 'middle'),
+        label(z.label, s.creasePx && !creaseHoriz ? w * 0.27 : w / 2, y0 + (y1 - y0) / 2 + fs * 0.35, C.zone, 'middle'),
       )
     }
 
@@ -81,13 +82,21 @@
       label('Camera', camLabelRight ? cx + cr * 3.1 : cx - cr * 3.1, cy + fs * 0.35, C.camera, camLabelRight ? 'start' : 'end'),
     )
 
-    // Fold crease (inner display only)
+    // Fold crease (inner display only). Book hinges run vertically; flip hinges run horizontally.
     if (s.creasePx) {
-      parts.push(
-        `<rect x="${w / 2 - s.creasePx / 2}" y="0" width="${s.creasePx}" height="${h}" fill="${C.fold}0.14)"/>`,
-        `<line x1="${w / 2}" x2="${w / 2}" y1="0" y2="${h}" stroke="${C.fold}0.95)" stroke-width="2" stroke-dasharray="16 10" vector-effect="non-scaling-stroke"/>`,
-        label('Fold', w / 2, h * 0.5, C.fold, 'middle'),
-      )
+      if (creaseHoriz) {
+        parts.push(
+          `<rect x="0" y="${h / 2 - s.creasePx / 2}" width="${w}" height="${s.creasePx}" fill="${C.fold}0.14)"/>`,
+          `<line x1="0" x2="${w}" y1="${h / 2}" y2="${h / 2}" stroke="${C.fold}0.95)" stroke-width="2" stroke-dasharray="16 10" vector-effect="non-scaling-stroke"/>`,
+          label('Fold', w * 0.5, h / 2 - fs * 0.6, C.fold, 'middle'),
+        )
+      } else {
+        parts.push(
+          `<rect x="${w / 2 - s.creasePx / 2}" y="0" width="${s.creasePx}" height="${h}" fill="${C.fold}0.14)"/>`,
+          `<line x1="${w / 2}" x2="${w / 2}" y1="0" y2="${h}" stroke="${C.fold}0.95)" stroke-width="2" stroke-dasharray="16 10" vector-effect="non-scaling-stroke"/>`,
+          label('Fold', w / 2, h * 0.5, C.fold, 'middle'),
+        )
+      }
     }
 
     // Screen boundary

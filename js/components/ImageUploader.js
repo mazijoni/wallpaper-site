@@ -110,7 +110,7 @@
         }
         name.textContent = a.name
         name.title = a.name
-        dims.textContent = `${a.width} × ${a.height} px`
+        dims.textContent = `${a.width} × ${a.height} px · original quality`
       }
     }
     update()

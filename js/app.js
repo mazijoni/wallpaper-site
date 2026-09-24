@@ -4,11 +4,27 @@
   const store = FW.createStore()
   FW.renderer.init(store)
 
+  // Mobile stage sizing (see styles.css) is aspect-ratio-driven so a device whose
+  // proportions differ a lot from the Fold8's isn't letterboxed down to a sliver.
+  ;(() => {
+    const g = FW.geo
+    const openAr = g.axis === 'flip' ? g.cross / g.openSpan : g.openSpan / g.cross
+    const closedAr = g.axis === 'flip' ? g.cross / g.closedSpan : g.closedSpan / g.cross
+    const c = FW.DEVICE.screens.cover.px
+    const n = FW.DEVICE.screens.inner.px
+    const root = document.documentElement.style
+    root.setProperty('--phone-ar', openAr.toFixed(3))
+    root.setProperty('--split-ar', (openAr + closedAr).toFixed(3))
+    root.setProperty('--split-ar-stacked', (1 / (1 / openAr + 1 / closedAr)).toFixed(3))
+    root.setProperty('--screens-ar', (c.w / c.h + n.w / n.h).toFixed(3))
+  })()
+
   // ---- Components --------------------------------------------------------------
   const cover = FW.CoverEditor(store)
   const inner = FW.InnerEditor(store)
   const viewMode = FW.ViewModeSelector(store)
   const foldToggle = FW.FoldToggle(store)
+  const deviceSelector = FW.DeviceSelector()
   const preview = FW.DevicePreview(store)
   const exportPanel = FW.ExportPanel(store)
   const info = FW.DeviceInfo()
@@ -86,7 +102,8 @@
         h('span', { class: 'sep', 'aria-hidden': 'true' }, '/'),
         h('img', { class: 'mast-icon', src: 'img/logo_2.png', alt: '' }),
         h('span', { class: 'mast-name' }, 'FoldPaper'),
-        h('span', { class: 'device-chip' }, FW.DEVICE.name)),
+        h('span', { class: 'device-chip' }, FW.DEVICE.name),
+        deviceSelector.el),
       h('div', { class: 'export-anchor' }, exportBtn, popover)),
   )
 

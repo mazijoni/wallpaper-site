@@ -6,8 +6,9 @@
   const { h, icon } = FW.ui
 
   FW.EmptyState = function EmptyState(store, { onUpload }) {
-    const eyeImg = h('img', { alt: 'Default cover wallpaper: the Maze mark', class: 'es-thumb es-cover' })
-    const faceImg = h('img', { alt: 'Default inner wallpaper: the full Maze_Development logo', class: 'es-thumb es-inner' })
+    const S = FW.DEVICE.screens
+    const eyeImg = h('img', { alt: 'Default cover wallpaper: the Maze mark', class: 'es-thumb', style: { aspectRatio: `${S.cover.px.w} / ${S.cover.px.h}` } })
+    const faceImg = h('img', { alt: 'Default inner wallpaper: the full Maze_Development logo', class: 'es-thumb', style: { aspectRatio: `${S.inner.px.w} / ${S.inner.px.h}` } })
     const example = h('button', { type: 'button', class: 'btn btn-primary', onClick: () => store.loadExample() }, 'Try this example')
     const upload = h('button', { type: 'button', class: 'btn', onClick: onUpload }, icon('upload', 15), 'Upload your own')
 
